@@ -61,7 +61,13 @@ const questions = [
     },
 ]
 
-const resetGame = () => {};
+const resetGame = () => {
+    $("#game-area").empty();
+    $.each(questions, (index, question) => buildQuestion(index, question))
+    $("#correct").text(0);
+    $("#incorrect").text(0);
+
+};
 
 const randomizeArray = (array) => {};
 
@@ -77,7 +83,7 @@ const buildQuestion = (index, question) => {
 
         const $input = $('<input>');
         $input.attr('type', 'radio');
-        $input.attr('name', `question${index}`);
+        $input.attr('name', `${question.id}`);
         $input.attr('id', answer);
         $input.attr('value', answer);
         $input.append(answer);
@@ -96,11 +102,28 @@ const buildQuestion = (index, question) => {
 
 };
 
-const scoreQuestions = () => { debugger };
+const scoreQuestions = () => {
+    let numberCorrectAnswers = 0;
+
+    $("input:checked").each( (index, input) => {
+        const value = input.value;
+        const activeQuestion = questions.filter(question => question.id === +input.name)[0];
+
+        if (value === activeQuestion.correctAnswer) {
+            numberCorrectAnswers++
+        }
+    });  
+    
+    let numberIncorrectAnswers = questions.length - numberCorrectAnswers;
+
+    $("#correct").text(numberCorrectAnswers);
+    $("#incorrect").text(numberIncorrectAnswers);
+};
 
 
 $(document).ready(() => {
     $.each(questions, (index, question) => buildQuestion(index, question))
 
-    $('button').on("click", scoreQuestions)
+    $('#score').on("click", scoreQuestions)
+    $('#reset').on("click", resetGame)
 })
