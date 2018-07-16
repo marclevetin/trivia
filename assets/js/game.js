@@ -8,7 +8,7 @@ const questions = [
     {
         id: 2,
         question: "What is Chilly the Snowman always worried about?",
-        answers: ["Melting", "Eating", "Being left behind", ""],
+        answers: ["Melting", "Eating", "Being left behind", "Falling off the bed"],
         correctAnswer: 'Melting'
     },
     {
@@ -60,3 +60,47 @@ const questions = [
         correctAnswer: 'Dottie'
     },
 ]
+
+const resetGame = () => {};
+
+const randomizeArray = (array) => {};
+
+const buildQuestion = (index, question) => {
+    
+    $question = $('<fieldset>');
+    $legend = $('<legend>')
+    $legend.append(`${index + 1}. ${question.question}`)
+    $question.append($legend);
+
+    question.answers.forEach((answer) => {
+        const $div = $('<div>');
+
+        const $input = $('<input>');
+        $input.attr('type', 'radio');
+        $input.attr('name', `question${index}`);
+        $input.attr('id', answer);
+        $input.attr('value', answer);
+        $input.append(answer);
+
+        const $label = $('<label>');
+        $label.attr('for', answer);
+        $label.text(answer);
+
+        $div.append($input);
+        $div.append($label);
+
+        $question.append($div)
+    })
+
+    $("#game-area").append($question)   
+
+};
+
+const scoreQuestions = () => { debugger };
+
+
+$(document).ready(() => {
+    $.each(questions, (index, question) => buildQuestion(index, question))
+
+    $('button').on("click", scoreQuestions)
+})
