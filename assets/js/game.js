@@ -69,7 +69,9 @@ const resetGame = () => {
 
 };
 
-const randomizeArray = (array) => {};
+const randomizeArray = (array) => {
+    return array.sort(() => (0.5 - Math.random()) > 0)
+};
 
 const buildQuestion = (index, question) => {
     
@@ -78,7 +80,7 @@ const buildQuestion = (index, question) => {
     $legend.append(`${index + 1}. ${question.question}`)
     $question.append($legend);
 
-    question.answers.forEach((answer) => {
+    randomizeArray(question.answers).forEach((answer) => {
         const $div = $('<div>');
 
         const $input = $('<input>');
@@ -122,7 +124,7 @@ const scoreQuestions = () => {
 
 
 $(document).ready(() => {
-    $.each(questions, (index, question) => buildQuestion(index, question))
+    $.each(randomizeArray(questions), (index, question) => buildQuestion(index, question))
 
     $('#score').on("click", scoreQuestions)
     $('#reset').on("click", resetGame)
